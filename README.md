@@ -29,6 +29,20 @@ custom state-machine orchestrator · LLM behind a provider abstraction (Anthropi
 | Orchestrator         | Every agent step is an `agent_runs` row with input, output, attempts (retry with backoff), timing, tokens and cost; the search pipeline runs in the background and can be re-run |
 | Admin                | Users (enable/disable, role, daily LLM limit), sources (enable/disable, last status), health, audit log |
 
+## Screenshots
+
+| Sign in | Dashboard |
+| --- | --- |
+| ![Sign in](docs/screenshots/login.png) | ![Dashboard](docs/screenshots/dashboard.png) |
+
+| Jobs with match scores | Why this score, contacts, draft |
+| --- | --- |
+| ![Jobs](docs/screenshots/jobs.png) | ![Job detail](docs/screenshots/job-detail.png) |
+
+| Application: draft, approve, send, track | Agent activity and notifications |
+| --- | --- |
+| ![Application](docs/screenshots/application-detail.png) | ![Agent activity](docs/screenshots/activity.png) |
+
 ## Running it
 
 ### Docker (everything)
@@ -67,6 +81,7 @@ uvicorn app.main:app --reload --port 8000
 cd frontend
 npm install
 npm run dev                                          # http://localhost:5173, proxies /api to :8000
+# API_TARGET=http://127.0.0.1:8010 npm run dev    # proxy to an API on another port
 ```
 
 ### Tests
@@ -147,8 +162,10 @@ backend/tests          conftest (test database), test_units.py, test_flow.py
 frontend/src
   pages/               Login, Dashboard, Jobs, JobDetail, Applications, ApplicationDetail, Profile, Runs, Admin
   components/          Layout (nav, notifications), ui (cards, chips, fields, modal)
+  index.css            theme tokens (navy brand, teal accent), base styles, button/input/card/chip classes
   api.ts, auth.tsx, hooks.ts, format.ts, types.ts
 docker-compose.yml     db + api + web (nginx)
+docs/screenshots       the images above
 ```
 
 ## Design notes
@@ -164,6 +181,10 @@ docker-compose.yml     db + api + web (nginx)
 - **Background work.** Searches run in a background thread with their own database session and show up
   as agent runs. For production the same functions would move to a Celery/RQ worker on Redis; the
   orchestrator does not depend on the thread.
+- **UI.** Tailwind v4. The palette lives as theme tokens in `index.css` (`brand-*` navy, `accent-*` teal, semantic
+  emerald/amber/rose/sky for states). Shared classes are `@utility` blocks; the button variants sit in
+  `@layer components` so a plain utility such as `md:hidden` still overrides them. Dark sidebar, sticky header,
+  works down to phone width.
 - **Privacy.** The model only receives skills, role titles and project lines, never email, phone or CTC.
   Resumes are stored per user and served only to their owner. Deleting the account removes the files.
 

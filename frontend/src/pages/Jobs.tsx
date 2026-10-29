@@ -182,7 +182,7 @@ function JobRow({ job }: { job: Job }) {
         </p>
         <div className="mt-1 flex flex-wrap gap-1.5">
           {job.match?.strong_matches.slice(0, 5).map((s) => (
-            <Chip key={s} tone="indigo">
+            <Chip key={s} tone="brand">
               {s}
             </Chip>
           ))}

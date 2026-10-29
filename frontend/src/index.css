@@ -1,43 +1,102 @@
 @import 'tailwindcss';
 
+@theme {
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  /* brand: deep steel navy */
+  --color-brand-50: #f0f5fa;
+  --color-brand-100: #dce8f3;
+  --color-brand-200: #bfd5e8;
+  --color-brand-300: #93b9d8;
+  --color-brand-400: #6096c3;
+  --color-brand-500: #3d78ad;
+  --color-brand-600: #2c5f92;
+  --color-brand-700: #254d77;
+  --color-brand-800: #224263;
+  --color-brand-900: #1f3853;
+  --color-brand-950: #152537;
+
+  /* accent: teal, used sparingly for the active state and the logo */
+  --color-accent-300: #7edcd0;
+  --color-accent-400: #3fc1b0;
+  --color-accent-500: #22a596;
+  --color-accent-600: #1a8678;
+
+  --color-surface: #f4f6f9;
+}
+
 @layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
   body {
-    font-family: Inter, 'Segoe UI', system-ui, sans-serif;
+    @apply bg-surface text-slate-800;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight text-slate-900;
+  }
+  thead th {
+    @apply border-b border-slate-200 pr-4 pb-2 text-left last:pr-0 text-xs font-semibold tracking-wider text-slate-500 uppercase;
+  }
+  tbody td {
+    @apply border-b border-slate-100 py-2 pr-4 align-top last:pr-0;
+  }
+  tbody tr:last-child td {
+    @apply border-b-0;
+  }
+  ::selection {
+    @apply bg-brand-200 text-brand-950;
   }
 }
 
 @utility btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-50;
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-3.5 py-2 text-sm font-medium whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 @utility input {
-  @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-xs placeholder:text-slate-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 focus:outline-hidden disabled:bg-slate-100;
+  @apply w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-xs transition-colors placeholder:text-slate-400 hover:border-slate-400 focus:border-brand-500 focus:ring-3 focus:ring-brand-500/15 focus:outline-hidden disabled:bg-slate-50 disabled:text-slate-500;
 }
 
 @utility label {
-  @apply mb-1 block text-xs font-semibold tracking-wide text-slate-500 uppercase;
+  @apply mb-1.5 block text-[11px] font-semibold tracking-wider text-slate-500 uppercase;
 }
 
 @utility card {
-  @apply rounded-xl border border-slate-200 bg-white p-5 shadow-xs;
+  @apply rounded-xl border border-slate-200/80 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_1px_3px_rgba(15,23,42,0.06)];
 }
 
 @utility chip {
-  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
+  @apply inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium ring-1 ring-inset;
 }
 
-.btn-primary {
-  @apply btn bg-indigo-600 text-white hover:bg-indigo-700;
+/* components sit below utilities so md:hidden, px-0 and friends still win */
+@layer components {
+  .btn-primary {
+    @apply btn bg-brand-700 text-white shadow-xs hover:bg-brand-800 active:bg-brand-900;
+  }
+
+  .btn-secondary {
+    @apply btn border border-slate-300 bg-white text-slate-700 shadow-xs hover:border-slate-400 hover:bg-slate-50;
+  }
+
+  .btn-danger {
+    @apply btn bg-rose-600 text-white shadow-xs hover:bg-rose-700;
+  }
+
+  .btn-ghost {
+    @apply btn text-slate-600 hover:bg-slate-100 hover:text-slate-900;
+  }
+
+  .text-link {
+    @apply font-medium text-brand-700 underline-offset-2 hover:text-brand-800 hover:underline;
+  }
 }
 
-.btn-secondary {
-  @apply btn border border-slate-300 bg-white text-slate-700 hover:bg-slate-50;
-}
-
-.btn-danger {
-  @apply btn bg-rose-600 text-white hover:bg-rose-700;
-}
-
-.btn-ghost {
-  @apply btn text-slate-600 hover:bg-slate-100;
+/* thin scrollbars for the long lists */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
 }

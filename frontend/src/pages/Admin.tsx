@@ -81,7 +81,7 @@ export default function Admin() {
               <li key={u.id} className="flex items-center justify-between gap-3 py-2">
                 <div>
                   <p className="font-medium">
-                    {u.name} <Chip tone={u.role === 'admin' ? 'indigo' : 'slate'}>{u.role}</Chip> {!u.is_active && <Chip tone="rose">disabled</Chip>}
+                    {u.name} <Chip tone={u.role === 'admin' ? 'brand' : 'slate'}>{u.role}</Chip> {!u.is_active && <Chip tone="rose">disabled</Chip>}
                   </p>
                   <p className="text-xs text-slate-500">
                     {u.email} · {u.applications} applications · LLM limit {u.daily_llm_limit}/day

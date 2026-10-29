@@ -90,7 +90,7 @@ export default function Runs() {
           {notes.data?.length === 0 && <Empty title="No notifications" />}
           <ul className="space-y-2">
             {notes.data?.map((n) => (
-              <li key={n.id} className={`rounded-lg px-3 py-2 text-sm ${n.read ? 'bg-white' : 'bg-indigo-50'}`}>
+              <li key={n.id} className={`rounded-lg px-3 py-2 text-sm ${n.read ? 'bg-white' : 'bg-brand-50'}`}>
                 <p className="font-medium">{n.title}</p>
                 {n.body && <p className="text-xs text-slate-600">{n.body}</p>}
                 <p className="text-xs text-slate-400">

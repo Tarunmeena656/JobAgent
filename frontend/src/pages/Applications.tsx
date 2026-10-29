@@ -6,10 +6,10 @@ import { fmtAgo, fmtDateTime, fromLocalInput, statusLabel } from '../format';
 import { useFetch } from '../hooks';
 import { APPLICATION_STATUSES, type Application, type Draft, type Reminder } from '../types';
 
-const STATUS_TONE: Record<string, 'slate' | 'indigo' | 'green' | 'amber' | 'rose' | 'sky'> = {
+const STATUS_TONE: Record<string, 'slate' | 'brand' | 'green' | 'amber' | 'rose' | 'sky'> = {
   saved: 'slate',
-  ready_to_apply: 'indigo',
-  draft_prepared: 'indigo',
+  ready_to_apply: 'brand',
+  draft_prepared: 'brand',
   awaiting_approval: 'amber',
   applied: 'sky',
   follow_up_due: 'amber',

@@ -74,7 +74,7 @@ export default function JobDetail() {
           </p>
           <p className="mt-1 text-xs text-slate-500">
             {j.source} · {j.posted_at ? `posted ${fmtDate(j.posted_at)}${j.posted_at_verified ? '' : ' (unverified)'}` : 'posting date not provided by the source'} · retrieved {fmtDateTime(j.retrieved_at)} ·{' '}
-            <a className="text-indigo-600 hover:underline" href={j.canonical_url} target="_blank" rel="noreferrer">
+            <a className="text-link" href={j.canonical_url} target="_blank" rel="noreferrer">
               original listing
             </a>
           </p>
@@ -186,7 +186,7 @@ export default function JobDetail() {
                   )}
                   <p className="text-xs text-slate-500">
                     {c.notes} Source:{' '}
-                    <a className="text-indigo-600 hover:underline" href={c.source_url} target="_blank" rel="noreferrer">
+                    <a className="text-link" href={c.source_url} target="_blank" rel="noreferrer">
                       link
                     </a>{' '}
                     · {fmtDateTime(c.retrieved_at)} · confidence {Math.round(c.confidence * 100)}%
