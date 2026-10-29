@@ -24,6 +24,11 @@ def env(name: str, default: str = "") -> str:
 
 
 DATABASE_URL = env("DATABASE_URL", "postgresql+psycopg://postgres:postgres@127.0.0.1:5432/jobagent")
+# hosted databases hand out postgres:// or postgresql:// URLs; SQLAlchemy needs the driver named
+for _prefix in ("postgres://", "postgresql://"):
+    if DATABASE_URL.startswith(_prefix):
+        DATABASE_URL = "postgresql+psycopg://" + DATABASE_URL[len(_prefix):]
+        break
 JWT_SECRET = env("JWT_SECRET", "change-me-in-production")
 JWT_EXPIRES_MINUTES = int(env("JWT_EXPIRES_MINUTES", "1440"))
 STORAGE_DIR = Path(env("STORAGE_DIR", ROOT / "storage"))

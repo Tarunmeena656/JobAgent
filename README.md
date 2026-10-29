@@ -1,5 +1,8 @@
 # JobAgent – AI job search and application agent
 
+[![CI](https://github.com/Tarunmeena656/JobAgent/actions/workflows/ci.yml/badge.svg)](https://github.com/Tarunmeena656/JobAgent/actions/workflows/ci.yml)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Tarunmeena656/JobAgent)
+
 Web app that does the research part of a job search and leaves the decisions to you. It discovers jobs
 from permitted public sources, de-duplicates them, scores each one against your approved profile with an
 explainable 0–100 match, extracts recruiter emails only when they are actually published, drafts
@@ -59,6 +62,17 @@ Then register, or seed demo accounts:
 ```bash
 docker compose exec api python scripts/seed.py
 # admin@jobagent.dev / Admin123!   demo@jobagent.dev / Demo1234!  (demo has a filled profile)
+```
+
+### One container (hosted demo)
+
+`Dockerfile` at the root builds the frontend and serves it from the API, so a single service is enough on
+Render, Railway or Fly. `render.yaml` describes that service plus a free Postgres; the button above creates both.
+`SEED_DEMO=1` creates the two demo accounts on start.
+
+```bash
+docker build -t jobagent .
+docker run -p 8000:8000 -e DATABASE_URL=postgresql://user:pass@host:5432/jobagent -e SEED_DEMO=1 jobagent
 ```
 
 ### Without Docker
@@ -165,6 +179,8 @@ frontend/src
   index.css            theme tokens (navy brand, teal accent), base styles, button/input/card/chip classes
   api.ts, auth.tsx, hooks.ts, format.ts, types.ts
 docker-compose.yml     db + api + web (nginx)
+Dockerfile, render.yaml  single-image build and the Render blueprint
+.github/workflows/ci.yml backend tests on Postgres + frontend build
 docs/screenshots       the images above
 ```
 

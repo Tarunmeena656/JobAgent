@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from starlette.exceptions import HTTPException
 
 from . import config
 from .db import Base, engine
@@ -31,6 +32,18 @@ def health() -> dict:
     return {"status": "ok"}
 
 
+class SPAStaticFiles(StaticFiles):
+    """Serve the built frontend; unknown non-API paths get index.html so client-side routes survive a refresh."""
+
+    async def get_response(self, path: str, scope):
+        try:
+            return await super().get_response(path, scope)
+        except HTTPException as exc:
+            if exc.status_code == 404 and not path.startswith("api"):
+                return await super().get_response("index.html", scope)
+            raise
+
+
 static_dir = config.ROOT / "frontend" / "dist"
 if static_dir.is_dir():
-    app.mount("/", StaticFiles(directory=static_dir, html=True), name="frontend")
+    app.mount("/", SPAStaticFiles(directory=static_dir, html=True), name="frontend")
